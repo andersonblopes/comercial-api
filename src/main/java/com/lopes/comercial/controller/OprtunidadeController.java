@@ -56,8 +56,17 @@ public class OprtunidadeController {
 	}
 
 	@DeleteMapping("/{id}")
-	public void remover(@PathVariable Long id) {
+	public ResponseEntity<Oportunidade> remover(@PathVariable Long id) {
+
+		Optional<Oportunidade> oportunidade = oportunidadeRepository.findById(id);
+
+		if (!oportunidade.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade não encontrada na base de dados.");
+		}
+
 		oportunidadeRepository.deleteById(id);
+		return ResponseEntity.noContent().build();
+
 	}
 
 }
