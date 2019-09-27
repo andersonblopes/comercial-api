@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -28,7 +29,14 @@ public class Oportunidade {
 	private String descricao;
 
 	@Min(0)
+	@NotNull
 	private BigDecimal valor;
+
+	public Oportunidade(String nomeProspecto, String descricao, BigDecimal valor) {
+		this.nomeProspecto = nomeProspecto;
+		this.descricao = descricao;
+		this.valor = valor;
+	}
 
 	public Long getId() {
 		return id;
