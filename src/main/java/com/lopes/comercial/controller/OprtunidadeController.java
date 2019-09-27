@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lopes.comercial.model.Oportunidade;
 import com.lopes.comercial.repository.OportunidadeRepository;
@@ -43,7 +44,18 @@ public class OprtunidadeController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Oportunidade inserir(@Valid @RequestBody Oportunidade oportunidade) {
+		Optional<Oportunidade> oportunidadeExistente = oportunidadeRepository
+				.findByDescricaoAndNomeProspecto(oportunidade.getDescricao(), oportunidade.getNomeProspecto());
+
+		if (oportunidadeExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade já cadastrada na base de dados.");
+		}
+
 		return oportunidadeRepository.save(oportunidade);
+	}
+
+	public void remover(Long id) {
+		oportunidadeRepository.deleteById(id);
 	}
 
 }
