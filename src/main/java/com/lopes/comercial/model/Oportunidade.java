@@ -31,6 +31,10 @@ public class Oportunidade {
 	@Min(0)
 	@NotNull
 	private BigDecimal valor;
+	
+	public Oportunidade() {
+		
+	}
 
 	public Oportunidade(String nomeProspecto, String descricao, BigDecimal valor) {
 		this.nomeProspecto = nomeProspecto;
