@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -49,7 +50,7 @@ public class OprtunidadeController {
 				.findByDescricaoAndNomeProspecto(oportunidade.getDescricao(), oportunidade.getNomeProspecto());
 
 		if (oportunidadeExistente.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade já cadastrada na base de dados.");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade já cadastrada!");
 		}
 
 		return oportunidadeRepository.save(oportunidade);
@@ -61,12 +62,32 @@ public class OprtunidadeController {
 		Optional<Oportunidade> oportunidade = oportunidadeRepository.findById(id);
 
 		if (!oportunidade.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade não encontrada na base de dados.");
+			// throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Oportunidade não
+			// encontrada na base de dados.");
+			return ResponseEntity.notFound().build();
 		}
 
 		oportunidadeRepository.deleteById(id);
 		return ResponseEntity.noContent().build();
 
+	}
+
+	@PutMapping
+	public ResponseEntity<Oportunidade> atualizar(@RequestBody Oportunidade oportunidade) {
+		if (oportunidade.getId() != null) {
+			Optional<Oportunidade> oportunidadeExistente = oportunidadeRepository.findById(oportunidade.getId());
+
+			if (oportunidadeExistente.isPresent()) {
+				oportunidadeExistente.get().setNomeProspecto(oportunidade.getNomeProspecto());
+				oportunidadeExistente.get().setDescricao(oportunidade.getDescricao());
+				oportunidadeExistente.get().setValor(oportunidade.getValor());
+				oportunidadeRepository.save(oportunidadeExistente.get());
+				return ResponseEntity.ok(oportunidadeExistente.get());
+			}
+
+		}
+
+		return ResponseEntity.notFound().build();
 	}
 
 }
