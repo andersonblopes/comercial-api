@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.lopes</groupId>
 	<artifactId>comercial-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<name>comercial-api</name>
 	<description>Projeto comercial</description>
 
