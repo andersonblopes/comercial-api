@@ -5,7 +5,16 @@ import com.lopes.comercial.repository.OportunidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
@@ -15,7 +24,7 @@ import java.util.Optional;
 /**
  * The type Oprtunidade controller.
  */
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(value = "http://localhost:4200")
 @RestController
 @RequestMapping("/oportunidades")
 public class OprtunidadeController {
@@ -40,6 +49,7 @@ public class OprtunidadeController {
      * Obter oportunidade response entity.
      *
      * @param id the id
+     *
      * @return the response entity
      */
     @GetMapping("/{id}")
@@ -55,6 +65,7 @@ public class OprtunidadeController {
      * Inserir oportunidade.
      *
      * @param oportunidade the oportunidade
+     *
      * @return the oportunidade
      */
     @PostMapping
@@ -74,6 +85,7 @@ public class OprtunidadeController {
      * Remover response entity.
      *
      * @param id the id
+     *
      * @return the response entity
      */
     @DeleteMapping("/{id}")
@@ -96,6 +108,7 @@ public class OprtunidadeController {
      * Atualizar response entity.
      *
      * @param oportunidade the oportunidade
+     *
      * @return the response entity
      */
     @PutMapping

@@ -1,6 +1,10 @@
 package com.lopes.comercial.model;
 
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,7 +23,7 @@ public class Oportunidade {
 
     @NotEmpty
     @Size(max = 80)
-    @Column(name = "nome_prospecto")
+    @javax.persistence.Column(name = "nome_prospecto")
     private String nomeProspecto;
 
     @NotEmpty
