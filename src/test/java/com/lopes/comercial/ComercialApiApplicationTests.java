@@ -1,10 +1,7 @@
 package com.lopes.comercial;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.math.BigDecimal;
-import java.util.Optional;
-
+import com.lopes.comercial.model.Oportunidade;
+import com.lopes.comercial.repository.OportunidadeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +9,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.lopes.comercial.model.Oportunidade;
-import com.lopes.comercial.repository.OportunidadeRepository;
+import java.math.BigDecimal;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * The type Comercial api application tests.
+ */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class ComercialApiApplicationTests {
@@ -25,6 +27,9 @@ public class ComercialApiApplicationTests {
 	@Autowired
 	private OportunidadeRepository oportunidadeRepository;
 
+	/**
+	 * Deve encontrar oportunidade.
+	 */
 	@Test
 	public void deveEncontrarOportunidade() {
 		// given
