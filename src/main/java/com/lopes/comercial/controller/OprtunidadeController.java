@@ -7,7 +7,6 @@ import javax.jms.JMSException;
 import javax.naming.NamingException;
 import javax.validation.Valid;
 
-import org.jorge.softdevelop.samples.QueueSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lopes.comercial.model.Oportunidade;
 import com.lopes.comercial.repository.OportunidadeRepository;
+
+import pt.digitalis.poc.QueueSender;
 
 /**
  * The type Oprtunidade controller.
