@@ -1,7 +1,13 @@
 package com.lopes.comercial.controller;
 
-import com.lopes.comercial.model.Oportunidade;
-import com.lopes.comercial.repository.OportunidadeRepository;
+import java.util.List;
+import java.util.Optional;
+
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+import javax.validation.Valid;
+
+import org.jorge.softdevelop.samples.QueueSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +23,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import com.lopes.comercial.model.Oportunidade;
+import com.lopes.comercial.repository.OportunidadeRepository;
 
 /**
  * The type Oprtunidade controller.
  */
-@CrossOrigin(value = "http://localhost:4200")
+@CrossOrigin(value = "http://localhost:8888")
 @RestController
 @RequestMapping("/oportunidades")
 public class OprtunidadeController {
@@ -39,10 +44,15 @@ public class OprtunidadeController {
      * Listar list.
      *
      * @return the list
+     * @throws JMSException 
+     * @throws NamingException 
      */
     @GetMapping
-    public List<Oportunidade> listar() {
-        return oportunidadeRepository.findAll();
+    public List<Oportunidade> listar() throws NamingException, JMSException {
+    	List<Oportunidade> lista = oportunidadeRepository.findAll();
+    	QueueSender queue = new QueueSender();
+    	queue.toSend(lista);
+        return lista;
     }
 
     /**
