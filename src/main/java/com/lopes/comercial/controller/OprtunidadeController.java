@@ -25,7 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.lopes.comercial.model.Oportunidade;
 import com.lopes.comercial.repository.OportunidadeRepository;
 
-import pt.digitalis.poc.QueueSender;
+import pt.digitalis.poc.Producer;
 
 /**
  * The type Oprtunidade controller.
@@ -35,109 +35,109 @@ import pt.digitalis.poc.QueueSender;
 @RequestMapping("/oportunidades")
 public class OprtunidadeController {
 
-    /**
-     * The Oportunidade repository.
-     */
-    @Autowired
-    OportunidadeRepository oportunidadeRepository;
+	/**
+	 * The Oportunidade repository.
+	 */
+	@Autowired
+	OportunidadeRepository oportunidadeRepository;
 
-    /**
-     * Listar list.
-     *
-     * @return the list
-     * @throws JMSException 
-     * @throws NamingException 
-     */
-    @GetMapping
-    public List<Oportunidade> listar() throws NamingException, JMSException {
-    	List<Oportunidade> lista = oportunidadeRepository.findAll();
-    	QueueSender queue = new QueueSender();
-    	queue.toSend(lista);
-        return lista;
-    }
+	/**
+	 * Listar list.
+	 *
+	 * @return the list
+	 * @throws JMSException
+	 * @throws NamingException
+	 */
+	@GetMapping
+	public List<Oportunidade> listar() throws NamingException, JMSException {
+		List<Oportunidade> lista = oportunidadeRepository.findAll();
+		Producer queue = new Producer();
+		queue.toSend(lista);
+		return lista;
+	}
 
-    /**
-     * Obter oportunidade response entity.
-     *
-     * @param id the id
-     *
-     * @return the response entity
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<Oportunidade> obterOportunidade(@PathVariable Long id) {
-        Optional<Oportunidade> oportunidade = oportunidadeRepository.findById(id);
-        if (!oportunidade.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(oportunidade.get());
-    }
+	/**
+	 * Obter oportunidade response entity.
+	 *
+	 * @param id the id
+	 *
+	 * @return the response entity
+	 */
+	@GetMapping("/{id}")
+	public ResponseEntity<Oportunidade> obterOportunidade(@PathVariable Long id) {
+		Optional<Oportunidade> oportunidade = oportunidadeRepository.findById(id);
+		if (!oportunidade.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(oportunidade.get());
+	}
 
-    /**
-     * Inserir oportunidade.
-     *
-     * @param oportunidade the oportunidade
-     *
-     * @return the oportunidade
-     */
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Oportunidade inserir(@Valid @RequestBody Oportunidade oportunidade) {
-        Optional<Oportunidade> oportunidadeExistente = oportunidadeRepository
-                .findByDescricaoAndNomeProspecto(oportunidade.getDescricao(), oportunidade.getNomeProspecto());
+	/**
+	 * Inserir oportunidade.
+	 *
+	 * @param oportunidade the oportunidade
+	 *
+	 * @return the oportunidade
+	 */
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public Oportunidade inserir(@Valid @RequestBody Oportunidade oportunidade) {
+		Optional<Oportunidade> oportunidadeExistente = oportunidadeRepository
+				.findByDescricaoAndNomeProspecto(oportunidade.getDescricao(), oportunidade.getNomeProspecto());
 
-        if (oportunidadeExistente.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade já cadastrada!");
-        }
+		if (oportunidadeExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade já cadastrada!");
+		}
 
-        return oportunidadeRepository.save(oportunidade);
-    }
+		return oportunidadeRepository.save(oportunidade);
+	}
 
-    /**
-     * Remover response entity.
-     *
-     * @param id the id
-     *
-     * @return the response entity
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Oportunidade> remover(@PathVariable Long id) {
+	/**
+	 * Remover response entity.
+	 *
+	 * @param id the id
+	 *
+	 * @return the response entity
+	 */
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Oportunidade> remover(@PathVariable Long id) {
 
-        Optional<Oportunidade> oportunidade = oportunidadeRepository.findById(id);
+		Optional<Oportunidade> oportunidade = oportunidadeRepository.findById(id);
 
-        if (!oportunidade.isPresent()) {
-            // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Oportunidade não
-            // encontrada na base de dados.");
-            return ResponseEntity.notFound().build();
-        }
+		if (!oportunidade.isPresent()) {
+			// throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Oportunidade não
+			// encontrada na base de dados.");
+			return ResponseEntity.notFound().build();
+		}
 
-        oportunidadeRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+		oportunidadeRepository.deleteById(id);
+		return ResponseEntity.noContent().build();
 
-    }
+	}
 
-    /**
-     * Atualizar response entity.
-     *
-     * @param oportunidade the oportunidade
-     *
-     * @return the response entity
-     */
-    @PutMapping
-    public ResponseEntity<Oportunidade> atualizar(@RequestBody Oportunidade oportunidade) {
-        if (oportunidade.getId() != null) {
-            Optional<Oportunidade> oportunidadeExistente = oportunidadeRepository.findById(oportunidade.getId());
+	/**
+	 * Atualizar response entity.
+	 *
+	 * @param oportunidade the oportunidade
+	 *
+	 * @return the response entity
+	 */
+	@PutMapping
+	public ResponseEntity<Oportunidade> atualizar(@RequestBody Oportunidade oportunidade) {
+		if (oportunidade.getId() != null) {
+			Optional<Oportunidade> oportunidadeExistente = oportunidadeRepository.findById(oportunidade.getId());
 
-            if (oportunidadeExistente.isPresent()) {
-                oportunidadeExistente.get().setNomeProspecto(oportunidade.getNomeProspecto());
-                oportunidadeExistente.get().setDescricao(oportunidade.getDescricao());
-                oportunidadeExistente.get().setValor(oportunidade.getValor());
-                oportunidadeRepository.save(oportunidadeExistente.get());
-                return ResponseEntity.ok(oportunidadeExistente.get());
-            }
+			if (oportunidadeExistente.isPresent()) {
+				oportunidadeExistente.get().setNomeProspecto(oportunidade.getNomeProspecto());
+				oportunidadeExistente.get().setDescricao(oportunidade.getDescricao());
+				oportunidadeExistente.get().setValor(oportunidade.getValor());
+				oportunidadeRepository.save(oportunidadeExistente.get());
+				return ResponseEntity.ok(oportunidadeExistente.get());
+			}
 
-        }
+		}
 
-        return ResponseEntity.notFound().build();
-    }
+		return ResponseEntity.notFound().build();
+	}
 
 }
