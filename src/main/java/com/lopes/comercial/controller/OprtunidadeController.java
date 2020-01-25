@@ -27,7 +27,8 @@ import com.lopes.comercial.repository.OportunidadeRepository;
 /**
  * The type Oprtunidade controller.
  */
-@CrossOrigin(value = "http://localhost:8888")
+@CrossOrigin // Permite chamadas de qualquer endereço.
+// @CrossOrigin(value = "http://localhost:8888") // Permite chamadas somente de http://localhost:8888.
 @RestController
 @RequestMapping("/oportunidades")
 public class OprtunidadeController {
