@@ -16,19 +16,31 @@ import java.math.BigDecimal;
 @Entity
 public class Oportunidade {
 
+	/**
+	 * The Id.
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	/**
+	 * The Nome prospecto.
+	 */
 	@NotEmpty
 	@Size(max = 80)
 	@javax.persistence.Column(name = "nome_prospecto")
 	private String nomeProspecto;
 
+	/**
+	 * The Descricao.
+	 */
 	@NotEmpty
 	@Size(max = 200)
 	private String descricao;
 
+	/**
+	 * The Valor.
+	 */
 	@Min(0)
 	@NotNull
 	private BigDecimal valor;
@@ -125,6 +137,11 @@ public class Oportunidade {
 		this.valor = valor;
 	}
 
+	/**
+	 * Hash code int.
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -133,6 +150,12 @@ public class Oportunidade {
 		return result;
 	}
 
+	/**
+	 * Equals boolean.
+	 *
+	 * @param obj the obj
+	 * @return the boolean
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -148,6 +171,11 @@ public class Oportunidade {
 			return id.equals(other.id);
 	}
 
+	/**
+	 * To string string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
 		return "Oportunidade [id=" + id + ", nomeProspecto=" + nomeProspecto + ", descricao=" + descricao + ", valor="

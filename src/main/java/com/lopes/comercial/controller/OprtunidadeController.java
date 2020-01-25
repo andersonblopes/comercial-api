@@ -42,7 +42,6 @@ public class OprtunidadeController {
 	 * Listar list.
 	 *
 	 * @return the list
-	 * @throws NamingException
 	 */
 	@GetMapping
 	public List<Oportunidade> listar(){
@@ -54,7 +53,6 @@ public class OprtunidadeController {
 	 * Obter oportunidade response entity.
 	 *
 	 * @param id the id
-	 *
 	 * @return the response entity
 	 */
 	@GetMapping("/{id}")
@@ -70,7 +68,6 @@ public class OprtunidadeController {
 	 * Inserir oportunidade.
 	 *
 	 * @param oportunidade the oportunidade
-	 *
 	 * @return the oportunidade
 	 */
 	@PostMapping
@@ -88,7 +85,6 @@ public class OprtunidadeController {
 	 * Remover response entity.
 	 *
 	 * @param id the id
-	 *
 	 * @return the response entity
 	 */
 	@DeleteMapping("/{id}")
@@ -107,7 +103,6 @@ public class OprtunidadeController {
 	 * Atualizar response entity.
 	 *
 	 * @param oportunidade the oportunidade
-	 *
 	 * @return the response entity
 	 */
 	@PutMapping
