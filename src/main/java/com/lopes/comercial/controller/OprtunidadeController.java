@@ -3,7 +3,6 @@ package com.lopes.comercial.controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.jms.JMSException;
 import javax.naming.NamingException;
 import javax.validation.Valid;
 
@@ -25,8 +24,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.lopes.comercial.model.Oportunidade;
 import com.lopes.comercial.repository.OportunidadeRepository;
 
-import pt.digitalis.poc.Producer;
-
 /**
  * The type Oprtunidade controller.
  */
@@ -45,14 +42,11 @@ public class OprtunidadeController {
 	 * Listar list.
 	 *
 	 * @return the list
-	 * @throws JMSException
 	 * @throws NamingException
 	 */
 	@GetMapping
-	public List<Oportunidade> listar() throws NamingException, JMSException {
+	public List<Oportunidade> listar(){
 		List<Oportunidade> lista = oportunidadeRepository.findAll();
-		Producer queue = new Producer();
-		queue.toSend(lista);
 		return lista;
 	}
 
@@ -84,11 +78,9 @@ public class OprtunidadeController {
 	public Oportunidade inserir(@Valid @RequestBody Oportunidade oportunidade) {
 		Optional<Oportunidade> oportunidadeExistente = oportunidadeRepository
 				.findByDescricaoAndNomeProspecto(oportunidade.getDescricao(), oportunidade.getNomeProspecto());
-
 		if (oportunidadeExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oportunidade já cadastrada!");
 		}
-
 		return oportunidadeRepository.save(oportunidade);
 	}
 
@@ -101,18 +93,14 @@ public class OprtunidadeController {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Oportunidade> remover(@PathVariable Long id) {
-
 		Optional<Oportunidade> oportunidade = oportunidadeRepository.findById(id);
-
 		if (!oportunidade.isPresent()) {
 			// throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Oportunidade não
 			// encontrada na base de dados.");
 			return ResponseEntity.notFound().build();
 		}
-
 		oportunidadeRepository.deleteById(id);
 		return ResponseEntity.noContent().build();
-
 	}
 
 	/**
@@ -134,10 +122,7 @@ public class OprtunidadeController {
 				oportunidadeRepository.save(oportunidadeExistente.get());
 				return ResponseEntity.ok(oportunidadeExistente.get());
 			}
-
 		}
-
 		return ResponseEntity.notFound().build();
 	}
-
 }
