@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * The type Comercial api application.
+ * The type Financial api application.
  */
 @SpringBootApplication
-public class ComercialApiApplication {
+public class FinancialApiApplication {
 
     /**
      * The entry point of application.
@@ -16,7 +16,7 @@ public class ComercialApiApplication {
      */
     public static void main(String[] args) {
 
-        SpringApplication.run(ComercialApiApplication.class, args);
+        SpringApplication.run(FinancialApiApplication.class, args);
     }
 
 }
