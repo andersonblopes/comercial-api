@@ -9,6 +9,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * The type City.
+ */
 @Entity
 public class City {
 
@@ -26,26 +29,56 @@ public class City {
     @Column(name = "state")
     private String state;
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets state.
+     *
+     * @return the state
+     */
     public String getState() {
         return state;
     }
 
+    /**
+     * Sets state.
+     *
+     * @param state the state
+     */
     public void setState(String state) {
         this.state = state;
     }

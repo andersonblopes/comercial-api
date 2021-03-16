@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -46,6 +48,10 @@ public class Opportunity {
     @Min(0)
     @NotNull
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_city")
+    private City city;
 
 
     /**
@@ -138,6 +144,14 @@ public class Opportunity {
      */
     public void setPrice(BigDecimal valor) {
         this.price = valor;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     /**
